@@ -1,30 +1,47 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Button, Navbar, Offcanvas } from "react-bootstrap";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showNavbar, setNavbar] = useState(false);
+  const navigate = useNavigate();
+
+  /**
+   * 
+   * @param {string} route 
+   */
+  const handleRouteChange = (route) => {
+      return () => {
+          setNavbar(false); 
+          navigate(route);
+      }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <Outlet/>
+      <Navbar className="bg-body-secondary">
+        <Button onClick={() => setNavbar(true)}>Nav</Button>
+      </Navbar>
+      <Offcanvas
+        show={showNavbar}
+        onHide={() => setNavbar(false)}
+        backdrop="static"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Trash App</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div className="d-grid gap-2">
+            <Button variant="outline-primary" onClick={handleRouteChange("/")}>Home</Button>
+            <Button variant="outline-primary" onClick={handleRouteChange("/watchlist")}>Watchlist</Button>
+            <Button variant="outline-primary" onClick={handleRouteChange("/map")}>Map</Button>
+          </div>
+        </Offcanvas.Body>
+      </Offcanvas>
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
