@@ -22,6 +22,10 @@ const router = createBrowserRouter([
         path: "map",
         element: <Placeholder text="This is the Map page"/>,
       },
+      {
+        path: "bin/:bid",
+        element: <Placeholder text="This is the Bin page"/>,
+      },
     ],
   },
 ]);
