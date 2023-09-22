@@ -9,15 +9,19 @@ function SearchPage() {
 
   const handleSearch = async (name, tag) => {
     try {
-		const url = ``
-		const response = await axios.get(url);
-        console.log('Search response is: ' + response)
-        return response
+      const url = ``
+      const params = {
+        Name: name,
+        tag: tag,
+      };
+      const response = await axios.get(url, { params });
+      console.log('Search response is: ' + response)
+      return response
 
-	} catch (error) {
-		console.error(error);
-		return null;
-	};
+    } catch (error) {
+      console.error(error);
+      return null;
+    };
   };
 
   return (
