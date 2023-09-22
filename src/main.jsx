@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import BinPage from './pages/BinPage.jsx'
+import BinPage from './pages/BinPage/BinPage.jsx';
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
