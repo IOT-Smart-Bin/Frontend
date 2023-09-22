@@ -55,7 +55,7 @@ function App() {
             </div>
           </Offcanvas.Body>
         </Offcanvas>
-        <div style={{"flexGrow": "1"}}>
+        <div className="outlet-container">
           <Outlet />
         </div>
       </div>
