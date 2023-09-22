@@ -5,7 +5,8 @@
  * @property {string} interpretAs
  * @property {string} interpretDescription
  * @property {0 | 1 | 2 | 3} displayColorLevel 
- * 
+ */
+/**
  * Config for all value that can be interpreted 
  * Warning: Please sort the interpretor by their lowerBound value descending
  * @typedef ValueConfig 
@@ -13,6 +14,20 @@
  * @property {string} unit
  * @property {string} description
  * @property {Interpretor[]} interpretor
+ */
+/**
+ * Classname used in the component after interpretation
+ * @typedef Assets
+ * @property {string} textColor
+ * @property {string} borderColor
+ */
+/**
+ * Component config that relies on the interpretation of the measured value
+ * @typedef ComponentConfig
+ * @property {string} description
+ * @property {string} unit
+ * @property {Interpretor} interpreted
+ * @property {Assets} asset
  */
 
 /**
@@ -69,43 +84,14 @@ export const valueConfig = [
 ];
 
 /**
- * get the value type (for example, humidity) and return description for it
- * @param {string} valueName 
- * @returns {string}
- */
-export const getValueDescription = (valueName) => {
-    const value = valueConfig.find((value) => value.valueName === valueName)    
-    if (value) {
-        return value.description;
-    } else {
-        return "No description for this item";
-    }
-}
-
-/**
  * get the value type (for example, humidity) and return the unit for it
- * @param {string} valueName 
- * @returns {string}
- */
-export const getValueUnit = (valueName) => {
-    const value = valueConfig.find((value) => value.valueName === valueName)    
-    if (value) {
-        return value.unit;
-    } else {
-        return "Unit";
-    }
-}
-
-/**
- * get the value type (for example, humidity) and return the unit for it
- * @param {string} valueName 
+ * @param {Interpretor[]} interpretors 
  * @param {number} currentValue 
  * @returns {Interpretor}
  */
-export const getValueInterpretation = (valueName, currentValue) => {
-  const value = valueConfig.find((value) => value.valueName === valueName);
-  if (value) {
-    for (let interpretorInstance of value.interpretor) {
+export const getInterpretation = (interpretors, currentValue) => {
+  if (interpretors) {
+    for (let interpretorInstance of interpretors) {
       if (interpretorInstance.lowerBound <= currentValue) {
         return interpretorInstance;
       }
@@ -121,9 +107,6 @@ export const getValueInterpretation = (valueName, currentValue) => {
 }
 
 /**
- * @typedef Assets
- * @property {string} textColor
- * @property {string} borderColor
  * 
  * @param {0 | 1 | 2 | 3} level 
  * @returns {Assets} 
@@ -151,4 +134,35 @@ export const assetGenerator = (level) => {
             borderColor: "border-danger"
         }
     }
+}
+
+/**
+ * 
+ * @param {string} valueName 
+ * @param {number} currentValue 
+ * @returns {ComponentConfig}
+ */
+export const getComponentConfigBasedOfMeasuredValue = (valueName, currentValue) => {
+  const valueNameConfig = valueConfig.find((value) => value.valueName === valueName);
+  if (valueNameConfig) {
+    const interpretorInstance = getInterpretation(valueNameConfig.interpretor, currentValue);
+    return {
+      unit: valueNameConfig.unit,
+      description: valueNameConfig.description,
+      interpreted: interpretorInstance,
+      asset: assetGenerator(interpretorInstance.displayColorLevel),
+    }
+  }
+
+  return {
+    unit: "Unit",
+    description: "No Description for this item",
+    interpreted: {
+      lowerBound: -1,
+      interpretAs: "No info",
+      interpretDescription: "No info",
+      displayColorLevel: 0,
+    },
+    asset: assetGenerator(0)
+  }
 }

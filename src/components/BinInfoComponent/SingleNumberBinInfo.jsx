@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Card, Button, ButtonToolbar, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./single-number-bin-info.css";
-import { getValueDescription, getValueInterpretation, getValueUnit, assetGenerator } from "../../util/valueDescription";
+import {  getComponentConfigBasedOfMeasuredValue } from "../../util/valueDescription";
 
 /**
  * @param {string} text 
@@ -27,29 +27,20 @@ const capitalizeFirstLetter = (text) => {
  */
 const SingleNumberBinInfoComponent = (props) => {
     /**
-     * @type {React.RefObject<string>}
+     * @type {React.RefObject<import("./../../util/valueDescription.js").ComponentConfig>}
      */
-    const valueDescription = useRef(getValueDescription(props.binData.dataName));
-    /**
-     * @type {React.RefObject<string>}
-     */
-    const unit = useRef(getValueUnit(props.binData.dataName));
-    /**
-     * @type {React.RefObject<import("./../../util/valueDescription.js").Interpretor>}
-     */
-    const interpretation = useRef(getValueInterpretation(props.binData.dataName, props.binData.value));
-    const asset = useRef(assetGenerator(interpretation.current.displayColorLevel));
+    const componentConfig = useRef(getComponentConfigBasedOfMeasuredValue(props.binData.dataName, props.binData.value));
 
     const tooltip = (props) => {
       return (
         <Tooltip {...props}>
-          <p>{valueDescription.current}</p>
+          <p>{componentConfig.current.description}</p>
         </Tooltip>
       );
     };
 
     return (
-      <Card className={`mt-3 border-3 ${asset.current.borderColor}`}>
+      <Card className={`mt-3 border-3 ${componentConfig.current.asset.borderColor}`}>
         <Card.Header className="text-align-left ">
           <div className="bin-card-header">
             <Card.Title className="center">
@@ -68,10 +59,12 @@ const SingleNumberBinInfoComponent = (props) => {
           </div>
         </Card.Header>
         <Card.Body className="text-align-left">
-          <p>{props.binData.value ?? ""}</p>
+          <h1>{props.binData.value ?? ""}</h1>
         </Card.Body>
         <Card.Footer>
-          <p className={`${asset.current.textColor} bold-text`}>Status: {interpretation.current.interpretAs} - {interpretation.current.interpretDescription} </p>
+          <p className={`${componentConfig.current.asset.textColor} bold-text`}>
+            Status: {componentConfig.current.interpreted.interpretAs} - {componentConfig.current.interpreted.interpretDescription} 
+          </p>
         </Card.Footer>
       </Card>
     );
