@@ -4,25 +4,12 @@ import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
+import SearchPage from './pages/SearchPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "",
-        element: <Placeholder text="This is the Home/Search page"/>
-      },
-      {
-        path: "watchlist",
-        element: <Placeholder text="This is the Watchlist page"/>,
-      },
-      {
-        path: "map",
-        element: <Placeholder text="This is the Map page"/>,
-      },
-    ],
+    element: <SearchPage />,
   },
 ]);
 
