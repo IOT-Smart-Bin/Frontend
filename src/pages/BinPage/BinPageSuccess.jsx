@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./bin-page-success.css";
 import BinPageEdit from "./BinPageEdit";
 import SingleNumberBinInfoComponent from "../../components/BinInfoComponent/SingleNumberBinInfo";
 import { Card, Col, Row, Image, Container, Button } from "react-bootstrap";
+import { isInWatchList, removeBID, addBID } from "../../util/localStorageReadWrite";
 
 /**
  * @typedef BinPageSuccessProps 
@@ -15,6 +16,27 @@ import { Card, Col, Row, Image, Container, Button } from "react-bootstrap";
  */
 const BinPageSuccess = ({ binHistory }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isInWL, setIsInWL] = useState(false);
+
+    useEffect(() => {
+      setIsInWL(isInWatchList(binHistory.bid));
+      const handleStorageChange = () => {
+        setIsInWL(isInWatchList(binHistory.bid));
+      }
+      
+      window.addEventListener("bid_storage", handleStorageChange)
+      return () => removeEventListener("bid_storage", handleStorageChange);
+    }, [])
+
+    const changeBidWatchlist = () => {
+        if (isInWL === true) {
+          removeBID(binHistory.bid)
+        } else {
+          addBID(binHistory.bid)
+        }
+
+        window.dispatchEvent(new Event("bid_storage"))
+    }
 
     return (
       <>
@@ -67,13 +89,24 @@ const BinPageSuccess = ({ binHistory }) => {
                   <Card.Body>
                     <Container>
                       <Row>
-                        <Button variant="outline-primary" onClick={() => setIsEditing(true)}>Edit Bin Info</Button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => setIsEditing(true)}
+                        >
+                          Edit Bin Info
+                        </Button>
                       </Row>
                       <br />
                       <Row>
-                        <Button variant="outline-primary">
-                          Add To Watchlist
-                        </Button>
+                        {isInWL ? (
+                          <Button variant="outline-primary" onClick={changeBidWatchlist}>
+                            Delete from Watchlist
+                          </Button>
+                        ) : (
+                          <Button variant="outline-primary" onClick={changeBidWatchlist}>
+                            Add To Watchlist
+                          </Button>
+                        )}
                       </Row>
                       <br />
                       <Row>

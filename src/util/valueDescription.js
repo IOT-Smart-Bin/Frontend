@@ -84,7 +84,6 @@ export const valueConfig = [
 ];
 
 /**
- * get the value type (for example, humidity) and return the unit for it
  * @param {Interpretor[]} interpretors 
  * @param {number} currentValue 
  * @returns {Interpretor}
@@ -107,7 +106,6 @@ export const getInterpretation = (interpretors, currentValue) => {
 }
 
 /**
- * 
  * @param {0 | 1 | 2 | 3} level 
  * @returns {Assets} 
  */
