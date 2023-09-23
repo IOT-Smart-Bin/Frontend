@@ -20,3 +20,15 @@ ion-icon {
     justify-content: center;
     align-items: center;
 }
+
+.flex-row {
+    flex-direction: row;
+}
+
+.add-gap {
+    gap: 10px;
+}
+
+.no-margin {
+    margin: 0px;
+}

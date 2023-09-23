@@ -5,7 +5,7 @@
 }
 
 .center-cropped {
-    width: 50%;
+    width: 100%;
     aspect-ratio: 1/1;
 }
 

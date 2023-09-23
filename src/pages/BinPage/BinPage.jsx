@@ -3,7 +3,8 @@
  * @property {number} gas
  * @property {number} weight
  * @property {number} timestamp
- * @property {number} humidity 
+ * @property {number} humidityInside 
+ * @property {number} humidityOutside
  * @property {number} capacity
  * 
  * @typedef BinHistory
@@ -14,7 +15,6 @@
  * @property {Object} location
  * @property {number} location.lat
  * @property {number} location.long
- * @property {BinHistoryTimelime[]} history
  * 
  */
 

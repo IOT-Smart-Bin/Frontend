@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Card, Button, ButtonToolbar, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./single-number-bin-info.css";
 import {  getComponentConfigBasedOfMeasuredValue } from "../../util/valueDescription";
@@ -59,7 +59,11 @@ const SingleNumberBinInfoComponent = (props) => {
           </div>
         </Card.Header>
         <Card.Body className="text-align-left">
-          <h1>{props.binData.value ?? ""}</h1>
+          <p className="no-margin">Current {props.binData.dataName} level is </p>
+          <div className="center flex-row add-gap">
+            <h1>{props.binData.value ?? ""}</h1>
+            <h3>{componentConfig.current.unit}</h3>
+          </div>
         </Card.Body>
         <Card.Footer>
           <p className={`${componentConfig.current.asset.textColor} bold-text`}>
