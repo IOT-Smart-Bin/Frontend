@@ -15,8 +15,8 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   const [isErrorAlertShowing, setIsErrorAlertShowing] = useState(false); 
   const [isSuccessAlertShowing, setIsSuccessAlertShowing] = useState(false); 
   const [name, setName] = useState("")
-  const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [imageFile, setImageFile] = useState("");
   /**
@@ -73,8 +73,8 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
       try {
         navigator.geolocation.getCurrentPosition((position) => {
           if (position.coords.latitude && position.coords.longitude) {
-            setLat(position.coords.latitude);
-            setLong(position.coords.longitude);
+            setLat(position.coords.latitude.toString());
+            setLong(position.coords.longitude.toString());
           } else {
             setIsErrorAlertShowing(true)
           }

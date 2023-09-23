@@ -13,8 +13,8 @@
  * @property {string} pictureLink
  * @property {string} name
  * @property {Object} location
- * @property {number} location.lat
- * @property {number} location.long
+ * @property {string} location.lat
+ * @property {string} location.long
  * 
  */
 
