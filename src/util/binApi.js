@@ -52,6 +52,7 @@ export const getBinDataAndHistory = (bid, startDate) => {
 
 /**
  * @typedef EditableData
+ * @property {string} bid 
  * @property {string} name
  * @property {string[]} tags
  * @property {string} lat
@@ -59,9 +60,9 @@ export const getBinDataAndHistory = (bid, startDate) => {
  * @property {string} pictureLink
  */
 
-export const editBinData = (name, tags, lat, long, pictureLink) => {
+export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
     const responseBody = {
-        name, tags, lat, long, pictureLink
+        bid, name, tags, lat, long, pictureLink
     }
     return axiosInstance.post("/edit", responseBody)
 }

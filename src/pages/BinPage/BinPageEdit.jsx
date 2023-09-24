@@ -3,7 +3,7 @@ import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert, Placeholde
 import "./bin-page-edit.css";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 import { convertFileToBase64, isImage, testImage } from "../../util/imageProcessor";
-import axiosInstance from "../../util/axiosInstance";
+import { editBinData } from "../../util/binApi";
 
 /**
  * @typedef EditRequestBody
@@ -102,16 +102,17 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
     /**
      * @type {EditRequestBody}
      */
-    const requestBody = {
-      bid: binHistory.bid,
-      pictureLink: base64Image,
-      name: name,
-      tags: tagList,
-      lat: lat,
-      long: long,
-    }
+    // const requestBody = {
+    //   bid: binHistory.bid,
+    //   pictureLink: base64Image,
+    //   name: name,
+    //   tags: tagList,
+    //   lat: lat,
+    //   long: long,
+    // }
+
     try {
-      await axiosInstance.post("/edit", requestBody)            
+      await editBinData(binHistory.bid, name, tagList, lat, long, base64Image);            
       returnToMainPageFunction();
     } catch (e) {
       console.log(e);
