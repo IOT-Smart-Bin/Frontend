@@ -1,5 +1,5 @@
 /**
- * @typedef BinHistoryTimelime
+ * @typedef BinHistory
  * @property {number} gas
  * @property {number} weight
  * @property {number} timestamp
@@ -7,7 +7,7 @@
  * @property {number} humidityOutside
  * @property {number} capacity
  * 
- * @typedef BinHistory
+ * @typedef BinData
  * @property {string} bid
  * @property {string[]} tags
  * @property {string} pictureLink
@@ -16,6 +16,8 @@
  * @property {string} location.lat
  * @property {string} location.long
  * 
+ * @typedef BinTimeline
+ * @property {BinHistory[]} history
  */
 
 import React, { useEffect, useState } from "react";
@@ -24,6 +26,7 @@ import axiosInstance from "../../util/axiosInstance";
 import { Spinner } from "react-bootstrap";
 import "./bin-page.css";
 import BinPageSuccess from "./BinPageSuccess";
+import { getBinDataAndHistory } from "../../util/binApi";
 
 /**
  * Bin Page Component
@@ -36,9 +39,9 @@ const BinPage = () => {
      */
     const [pageStatus, setPageStatus] = useState(0)
     /**
-     * @type {[BinHistory | null, React.Dispatch<React.SetStateAction<BinHistory>>]}
+     * @type {[BinData | null, React.Dispatch<React.SetStateAction<BinData>>]}
      */
-    const [binHistory, setBinHistory] = useState(null);
+    const [binDataAndHistory, setBinDataAndHistory] = useState(null);
 
     useEffect(() => {
         if (!bid) {
@@ -48,9 +51,8 @@ const BinPage = () => {
 
         (async () => {
             try {
-                /** @type {import("axios").AxiosResponse<BinHistory>} */
-                const binHistoryFetchResult = await axiosInstance.get(`/binHistory/${bid}`);
-                setBinHistory(binHistoryFetchResult.data);
+                const binDataAndHistoryFetchResult = await getBinDataAndHistory(bid, Date.now().toLocaleString())
+                setBinDataAndHistory(binDataAndHistoryFetchResult);
             } catch (e) {
                 console.error(e);
                 setPageStatus(-1);
@@ -59,10 +61,10 @@ const BinPage = () => {
     }, [])
 
     useEffect(() => {
-      if (binHistory !== null) {
+      if (binDataAndHistory !== null) {
         setPageStatus(1);
       }
-    }, [binHistory])
+    }, [binDataAndHistory])
 
     return (
       <>
@@ -85,7 +87,7 @@ const BinPage = () => {
             </div>
           </div>
         ) : (
-          <BinPageSuccess binHistory={binHistory}/>
+          <BinPageSuccess binDataAndHistory={binDataAndHistory}/>
         )}
       </>
     );

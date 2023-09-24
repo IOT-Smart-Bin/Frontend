@@ -18,7 +18,7 @@ import axiosInstance from "../../util/axiosInstance";
 /**
  * @param {object} props 
  * @param {() => void} props.returnToMainPageFunction 
- * @param {import("./BinPage").BinHistory} props.binHistory
+ * @param {import("./BinPage").BinData} props.binHistory
  * @returns {React.ReactNode}
  */
 const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
