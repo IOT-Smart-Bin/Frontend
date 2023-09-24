@@ -1,0 +1,19 @@
+/* Styles for square box container */
+.square-box {
+    width: 400px; /* Adjust the width as needed */
+    border: 1px solid #ccc; /* Add a border for visual separation */
+    display: flex; /* Use flexbox for layout */
+  }
+  
+  /* Styles for the left side (picture) */
+  .left-side {
+    flex: 0 0 200px; /* Fixed width for the left side (picture) */
+    padding: 20px; /* Add padding for spacing */
+  }
+  
+  /* Styles for the right side (other data) */
+  .right-side {
+    flex: 1; /* Allow the right side to grow and take remaining space */
+    padding: 20px; /* Add padding for spacing */
+  }
+  
