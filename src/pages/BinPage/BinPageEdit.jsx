@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert } from "react-bootstrap";
+import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert, Placeholder } from "react-bootstrap";
 import "./bin-page-edit.css";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import { convertFileToBase64, isImage, testImage } from "../../util/imageProcessor";
+import axiosInstance from "../../util/axiosInstance";
+
+/**
+ * @typedef EditRequestBody
+ * @property {string} bid 
+ * @property {string} name 
+ * @property {string[]} tags 
+ * @property {string} pictureLink 
+ * @property {string} lat
+ * @property {string} long 
+ */
 
 /**
  * @param {object} props 
@@ -14,11 +26,20 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   const [isCancelShowing, setCancelModal]= useState(false);
   const [isErrorAlertShowing, setIsErrorAlertShowing] = useState(false); 
   const [isSuccessAlertShowing, setIsSuccessAlertShowing] = useState(false); 
+  const [alertErrorText, setAlertErrorText] = useState("")
+  const [alertSuccessText, setAlertSuccessText] = useState("")
   const [name, setName] = useState("")
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
   const [tagInput, setTagInput] = useState("");
-  const [imageFile, setImageFile] = useState("");
+  /**
+   * @type {[File | null, React.Dispatch<React.SetStateAction<File | null>>]}
+   */
+  const [imageFile, setImageFile] = useState(null);
+  /**
+   * @type {[string | null, React.Dispatch<React.SetStateAction<string | null>>]}
+   */
+  const [imageURL, _setImageURL] = useState("")
   /**
    * @type {[string[], React.Dispatch<React.SetStateAction<string[]>>]} 
    */
@@ -29,7 +50,20 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
     setLat(binHistory.location.lat);
     setLong(binHistory.location.long);
     setTagList(binHistory.tags);     
+    setImageURL(binHistory.pictureLink);
   }, [])
+
+  useEffect(() => {
+    if (!imageFile) {
+      setImageURL(binHistory.pictureLink)
+      return;
+    }
+
+    const objUrl = URL.createObjectURL(imageFile);
+    setImageURL(objUrl);
+
+    return () => URL.revokeObjectURL(objUrl)
+  }, [imageFile])
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -39,9 +73,50 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
     setTagInput(event.target.value)
   }
 
+  /**
+   * @param {import("react").SyntheticEvent<HTMLInputElement>} event 
+   */
+  const handleAddPicture = (event) => {
+    if (event.target.files && event.target.files.length !== 0 && isImage(event.target.files[0])) {
+      setImageFile(event.target.files[0])
+      showSuccessAlert("Successfully added picture")
+      return;
+    }
+
+    showErrorAlert("Inserting picture failed, Please check the file")
+  }
+
+  /**
+   * @param {string} url 
+   */
+  const setImageURL = (url) => {
+    testImage(url, 
+      () => _setImageURL(url),
+      () => _setImageURL(null))
+  }
+
   const confirmEdit = async () => {
     // post info to server
-    returnToMainPageFunction();
+    const base64Image = await convertFileToBase64(imageURL);
+
+    /**
+     * @type {EditRequestBody}
+     */
+    const requestBody = {
+      bid: binHistory.bid,
+      pictureLink: base64Image,
+      name: name,
+      tags: tagList,
+      lat: lat,
+      long: long,
+    }
+    try {
+      await axiosInstance.post("/edit", requestBody)            
+      returnToMainPageFunction();
+    } catch (e) {
+      console.log(e);
+      showErrorAlert("Oops, there is something wrong here, please retry confirming the edit")
+    }
   }
 
   /**
@@ -75,16 +150,33 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
           if (position.coords.latitude && position.coords.longitude) {
             setLat(position.coords.latitude.toString());
             setLong(position.coords.longitude.toString());
+            showSuccessAlert("Location successfully obtained");
           } else {
-            setIsErrorAlertShowing(true)
+            showErrorAlert("There is an error with obtaining location, please try again")
           }
-        }, () => setIsErrorAlertShowing(true));
+        }, () => showErrorAlert("There is an error with obtaining location, please try again"));
       } catch (e) {
-        setIsErrorAlertShowing(true)
+        showErrorAlert("There is an error with obtaining location, please try again")
       }
     } else {
-      setIsErrorAlertShowing(true)
+      showErrorAlert("There is an error with obtaining location, please try again")
     }
+  }
+
+  const showErrorAlert = (text) => {
+    setAlertErrorText(text)
+    setIsErrorAlertShowing(true)
+    setTimeout(() => {
+      setIsErrorAlertShowing(false);
+    }, 5000)
+  }
+
+  const showSuccessAlert = (text) => {
+    setAlertSuccessText(text)
+    setIsSuccessAlertShowing(true)
+    setTimeout(() => {
+      setIsSuccessAlertShowing(false);
+    }, 5000)
   }
 
   return (
@@ -108,11 +200,22 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
           <div className="form-image-text-splitter">
             <div className="center">
               <Container>
-                <img src={binHistory.pictureLink}></img>
+                {
+                  imageURL ? (
+                    <img src={imageURL} className="preview-image"></img>
+                  ) : (
+                    <Placeholder></Placeholder>
+                  )
+                }
                 <Form>
                   <Form.Group>
-                    <Form.Label><b>Select Picture</b></Form.Label>
-                    <Form.Control type="file"></Form.Control>
+                    <Form.Label>
+                      <b>Select Picture</b>
+                    </Form.Label>
+                    <Form.Control
+                      type="file"
+                      onChange={handleAddPicture}
+                    ></Form.Control>
                   </Form.Group>
                 </Form>
               </Container>
@@ -246,18 +349,15 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
         show={isErrorAlertShowing}
         onClose={() => setIsErrorAlertShowing(false)}
       >
-        <Alert.Heading>Oh Snap!</Alert.Heading>
-        <p>
-          We have problem getting your position, please make sure you have GPS
-          enabled
-        </p>
+        <p>{alertErrorText}</p>
       </Alert>
       <Alert
+        variant="success"
         dismissible={true}
         show={isSuccessAlertShowing}
         onClose={() => setIsSuccessAlertShowing(false)}
       >
-        <Alert.Heading>Location Successfully Obtained</Alert.Heading>
+        <p>{alertSuccessText}</p>
       </Alert>
     </div>
   );
