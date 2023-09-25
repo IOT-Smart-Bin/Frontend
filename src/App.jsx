@@ -52,7 +52,7 @@ function App() {
           <Offcanvas.Body>
             <Nav className="d-grid gap-2" as="div" fill >
               {routeThatCanBeUsedInNavbar.map((routeObject) => (
-                <Button variant={location.pathname === routeObject.route ? "primary" : "secondary"}
+                <Button key={routeObject.route} variant={location.pathname === routeObject.route ? "primary" : "secondary"}
                     onClick={handleRouteChange(routeObject.route)}
                     className="icon-and-tab-container"
                   >
