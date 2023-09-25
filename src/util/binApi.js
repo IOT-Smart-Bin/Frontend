@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance"
+import QueryString from "qs"
 
 /**
  * @typedef BinHistory
@@ -65,4 +66,30 @@ export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
         bid, name, tags, lat, long, pictureLink
     }
     return axiosInstance.post("/edit", responseBody)
+}
+
+/**
+ * @typedef MapData
+ * @property {string} bid
+ * @property {string} lat
+ * @property {string} lng
+ * 
+ * @param {string[]} bids 
+ * @returns {Promise<MapData[]>}
+ */
+export const getMapData = (bids) => {
+   return axiosInstance
+     .post("/mapData", {
+       bids: bids,
+     })
+     .then((mapDataResponse) => {
+       return mapDataResponse.data.map((mapData) => ({
+         bid: mapData.bid,
+         lat: parseFloat(mapData.lat),
+         lng: parseFloat(mapData.long),
+       }));
+     })
+     .then((mapDataResponse) => {
+       return mapDataResponse;
+     }); 
 }

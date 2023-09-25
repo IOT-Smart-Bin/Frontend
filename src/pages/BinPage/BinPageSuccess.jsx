@@ -96,13 +96,12 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                   {/* <div className="intro-card-container"> */}
                   <Row>
                     <Col>
-                      <div className="center-cropped">
-                        <Image
-                          src={binDataAndHistory.pictureLink}
-                          alt="Bin Image"
-                          rounded
-                        ></Image>
-                      </div>
+                      <Image
+                        as="img"
+                        src={binDataAndHistory.pictureLink}
+                        className="bin-image"
+                        alt="Bin Image"
+                      ></Image>
                     </Col>
                     <Col>
                       <div className="flex-grow-1 text-align-left info-text-size">
@@ -140,73 +139,64 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                   <Container>
                     <Row>
                       <Button
-                        variant="outline-primary"
+                        variant="warning"
                         onClick={() => setIsEditing(true)}
                       >
-                        Edit Bin Info
+                        <b>Edit Bin Info</b>
                       </Button>
                     </Row>
                     <br />
                     <Row>
                       {isInWL ? (
-                        <Button
-                          variant="outline-primary"
-                          onClick={changeBidWatchlist}
-                        >
-                          Delete from Watchlist
+                        <Button variant="danger" onClick={changeBidWatchlist}>
+                          <b>Delete from Watchlist</b>
                         </Button>
                       ) : (
-                        <Button
-                          variant="outline-primary"
-                          onClick={changeBidWatchlist}
-                        >
-                          Add To Watchlist
+                        <Button variant="primary" onClick={changeBidWatchlist}>
+                          <b>Add To Watchlist</b>
                         </Button>
                       )}
                     </Row>
                     <br />
                     <Row>
                       <Button
-                        variant="outline-primary"
+                        variant="primary"
                         onClick={() => setGlobalIsShowGraph((prev) => !prev)}
                       >
-                        See All Graph
+                        <b>See All Graph</b>
                       </Button>
                     </Row>
+                    <br></br>
+                    {isInWL && (
+                      <Row>
+                        <Button
+                          variant="success"
+                          onClick={() =>
+                            navigate(`/map?focusBID=${binDataAndHistory.bid}`)
+                          }
+                        >
+                          <b>See in Map</b>
+                        </Button>
+                      </Row>
+                    )}
                   </Container>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
-          {componentTree && componentTree.map((dataInRow) => (
-            <Row key={JSON.stringify(dataInRow)}>
-              {dataInRow.map((data) => (
-                <Col key={JSON.stringify(data)}>
-                  <SingleNumberBinInfoComponent {...data} globalIsShowGraph={globalIsShowGraph}/>
-                </Col>
-              ))}
-            </Row>
-          ))}
-          {/* <Row>
-            <Col>
-              <SingleNumberBinInfoComponent
-                binData={{ dataName: "humidity", value: 600 }}
-                globalIsShowGraph={globalIsShowGraph}
-              />
-            </Col>
-            <Col>
-              <SingleNumberBinInfoComponent
-                binData={{ dataName: "humidity", value: 100 }}
-                globalIsShowGraph={globalIsShowGraph}
-              />
-            </Col>
-            <Col>
-              <SingleNumberBinInfoComponent
-                binData={{ dataName: "humidity", value: 400 }}
-                globalIsShowGraph={globalIsShowGraph}
-              />
-            </Col>
-          </Row> */}
+          {componentTree &&
+            componentTree.map((dataInRow) => (
+              <Row key={JSON.stringify(dataInRow)}>
+                {dataInRow.map((data) => (
+                  <Col key={JSON.stringify(data)}>
+                    <SingleNumberBinInfoComponent
+                      {...data}
+                      globalIsShowGraph={globalIsShowGraph}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            ))}
         </div>
       ) : (
         <BinPageEdit
