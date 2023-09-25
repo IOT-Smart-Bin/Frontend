@@ -52,3 +52,21 @@
   overflow-y: auto;
   flex-grow: 1;
 }
+
+.icon-and-tab-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.nav-title-text {
+  margin: 0px;
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
