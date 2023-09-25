@@ -1,19 +1,44 @@
-/* Styles for square box container */
+/* Styles for the square box container */
 .square-box {
-    width: 400px; /* Adjust the width as needed */
-    border: 1px solid #ccc; /* Add a border for visual separation */
-    display: flex; /* Use flexbox for layout */
-  }
-  
-  /* Styles for the left side (picture) */
-  .left-side {
-    flex: 0 0 200px; /* Fixed width for the left side (picture) */
-    padding: 20px; /* Add padding for spacing */
-  }
-  
-  /* Styles for the right side (other data) */
-  .right-side {
-    flex: 1; /* Allow the right side to grow and take remaining space */
-    padding: 20px; /* Add padding for spacing */
-  }
-  
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-width: 360px; /* Set a maximum width for the square box */
+  overflow: hidden; /* Hide content that overflows the square */
+  flex-direction: column; /* Change the flex direction to column */
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center text horizontally */
+  color: #000; /* Set text color to black */
+}
+
+/* Styles for the top section (name) */
+.top {
+  width: 100%; /* Make it full width */
+  padding-left: 20px; /* Add some padding */
+  text-align: left; /* Center text */
+}
+
+/* Styles for the bottom section (image and the rest) */
+.bottom {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap onto a new line if necessary */
+  width: 100%; /* Make it full width */
+}
+
+/* Styles for the left side (image) in the bottom section */
+.bottom .left-side {
+  flex: 1; /* Allow it to grow and take remaining space */
+  padding: 10px; /* Add some spacing */
+  text-align: left; /* Align text to the left */
+}
+
+/* Styles for the right side (tags, capacity, gas data, timestamp) in the bottom section */
+.bottom .right-side {
+  flex: 1; /* Allow it to grow and take remaining space */
+  padding: 10px; /* Add some spacing */
+  text-align: left; /* Align text to the left */
+  min-width: 0; /* Ensure content can shrink if necessary */
+}
