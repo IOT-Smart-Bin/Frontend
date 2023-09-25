@@ -1,0 +1,41 @@
+.page-limit-container {
+    max-width: 1280px;
+    text-align: center;
+    margin: auto;
+}
+
+.center-cropped {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+
+.intro-card-info {
+    flex-grow: 1;
+}
+
+.intro-card-container {
+    display: flex;
+    gap: 10px;
+}
+
+.indent {
+    text-indent: 1rem;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.info-text-size p {
+    font-size: 1.2rem;
+}
+
+.bin-image {
+    max-width: 400px;
+    max-height: 400px;
+}
