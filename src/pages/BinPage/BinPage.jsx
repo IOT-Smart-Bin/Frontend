@@ -22,11 +22,12 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axiosInstance from "../../util/axiosInstance";
-import { Spinner } from "react-bootstrap";
-import "./bin-page.css";
+// import { Spinner } from "react-bootstrap";
+// import "./bin-page.css";
 import BinPageSuccess from "./BinPageSuccess";
 import { getBinDataAndHistory } from "../../util/binApi";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import ErrorScreen from "../ErrorScreen/ErrorScreen";
 
 /**
  * Bin Page Component
@@ -69,23 +70,9 @@ const BinPage = () => {
     return (
       <>
         {pageStatus == 0 ? (
-          <div className="fullpage-container center">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-             <div className="center">
-              <p className="title-text">Loading...</p>
-              <p>We are loading the bin data</p>
-            </div>
-          </div>
+            <LoadingScreen/>
         ) : pageStatus == -1 ? (
-          <div className="fullpage-container center">
-            <ion-icon name="cloud-offline-outline"></ion-icon>
-            <div className="center">
-              <p className="title-text">Uh oh</p>
-              <p>We dont know want went wrong Here?</p>
-            </div>
-          </div>
+            <ErrorScreen/>
         ) : (
           <BinPageSuccess binDataAndHistory={binDataAndHistory}/>
         )}

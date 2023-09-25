@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import BinPage from './pages/BinPage/BinPage.jsx';
+import MapPage from './pages/Map/MapPage.jsx';
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "map",
-        element: <Placeholder text="This is the Map page"/>,
+        element: <MapPage/>,
       },
       {
         path: "bin/:bid",

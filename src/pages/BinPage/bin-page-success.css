@@ -9,12 +9,6 @@
     aspect-ratio: 1/1;
 }
 
-.center-cropped img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
 
 .intro-card-info {
     flex-grow: 1;
@@ -39,4 +33,9 @@
 
 .info-text-size p {
     font-size: 1.2rem;
+}
+
+.bin-image {
+    max-width: 400px;
+    max-height: 400px;
 }
