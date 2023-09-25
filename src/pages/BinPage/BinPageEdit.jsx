@@ -96,20 +96,7 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   }
 
   const confirmEdit = async () => {
-    // post info to server
     const base64Image = await convertFileToBase64(imageURL);
-
-    /**
-     * @type {EditRequestBody}
-     */
-    // const requestBody = {
-    //   bid: binHistory.bid,
-    //   pictureLink: base64Image,
-    //   name: name,
-    //   tags: tagList,
-    //   lat: lat,
-    //   long: long,
-    // }
 
     try {
       await editBinData(binHistory.bid, name, tagList, lat, long, base64Image);            

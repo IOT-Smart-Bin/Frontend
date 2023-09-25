@@ -1,5 +1,8 @@
+
 import axiosInstance from "./axiosInstance"
 import QueryString from "qs"
+
+// NOT USED ANYMORE I JUST FUCK AROUND WITH THIS - Tawan
 
 /**
  * @typedef BinHistory
@@ -31,40 +34,20 @@ import QueryString from "qs"
  */
 export const getBinDataAndHistory = (bid, startDate) => {
     return Promise.all([
-        axiosInstance.post(`/bins`, [parseInt(bid)]),
-        axiosInstance.post(`/histories`, { start_date: startDate, bid: parseInt(bid) })
+        axiosInstance.get(`/binData/${bid}`),
+        axiosInstance.get(`/binHistory`, { params: { startDate: startDate, bid: bid }})
     ]).then(([
         binDataResponse, 
         binHistoryResponse]) => 
     {
-        if (binDataResponse.data.length === 0) throw new Error("No Data")
-        const dataOfInterest = binDataResponse.data[0]
         /**
          * @type {BinData}
          */
-        const binData = {
-          bid: dataOfInterest.bid.toString(),
-          tags: dataOfInterest.tags, 
-          pictureLink: dataOfInterest.image,
-          name: dataOfInterest.name,
-          location: {
-            lat: dataOfInterest.location.latitude.toString(),
-            long: dataOfInterest.location.longitude.toString()
-          }
-        }
+        const binData = binDataResponse.data
         /**
          * @type {BinHistory[]}
          */
-        const binHistory = binHistoryResponse.data.map((dataPoint) => {
-          return {
-            timestamp: dataPoint.timestamp,
-            gas: dataPoint.gas,
-            weight: dataPoint.weight,
-            capacity: dataPoint.capacity,
-            humidityInside: dataPoint.humidity_inside,
-            humidityOutside: dataPoint.humidity_outside
-          }
-        })
+        const binHistory = binHistoryResponse.data
         
         // data preprocessor here - name change, etc.
         return {...binData, history: binHistory}  
@@ -82,24 +65,10 @@ export const getBinDataAndHistory = (bid, startDate) => {
  */
 
 export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
-    const dataReqBody = {
-        bid: parseInt(bid), 
-        name: name, 
-        tags: tags, 
-        location: {
-          latitude: parseFloat(lat),
-          longitude: parseFloat(long)
-        },
+    const responseBody = {
+        bid, name, tags, lat, long, pictureLink
     }
-
-    const imageReqbody = {
-      bid: parseInt(bid),
-      image: pictureLink,
-    }
-    return Promise.all([
-      axiosInstance.put("/bin_info", dataReqBody),
-      axiosInstance.put("/image", imageReqbody)
-    ]) 
+    return axiosInstance.post("/edit", responseBody)
 }
 
 /**
@@ -113,16 +82,17 @@ export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
  */
 export const getMapData = (bids) => {
    return axiosInstance
-     .post("/locations", 
-       bids.map((bid) => parseInt(bid)),
-     )
+     .post("/mapData", {
+       bids: bids,
+     })
      .then((mapDataResponse) => {
        return mapDataResponse.data.map((mapData) => ({
-         bid: mapData.bid.toString(),
-         name: mapData.name,
-         tags: mapData.tags,
-         lat: parseFloat(mapData.location.latitude),
-         lng: parseFloat(mapData.location.longitude),
+         bid: mapData.bid,
+         lat: parseFloat(mapData.lat),
+         lng: parseFloat(mapData.long),
        }));
      })
+     .then((mapDataResponse) => {
+       return mapDataResponse;
+     }); 
 }

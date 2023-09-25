@@ -28,6 +28,7 @@ import BinPageSuccess from "./BinPageSuccess";
 import { getBinDataAndHistory } from "../../util/binApi";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import ErrorScreen from "../ErrorScreen/ErrorScreen";
+import moment from "moment/moment";
 
 /**
  * Bin Page Component
@@ -52,7 +53,7 @@ const BinPage = () => {
 
         (async () => {
             try {
-                const binDataAndHistoryFetchResult = await getBinDataAndHistory(bid, Date.now().toLocaleString())
+                const binDataAndHistoryFetchResult = await getBinDataAndHistory(bid, moment().add(-7, "days").format("YYYY-MM-DDTHH:mm:ss"))
                 setBinDataAndHistory(binDataAndHistoryFetchResult);
             } catch (e) {
                 console.error(e);
