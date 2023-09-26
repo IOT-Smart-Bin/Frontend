@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert, Placeholder } from "react-bootstrap";
+import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert, Placeholder, Spinner } from "react-bootstrap";
 import "./bin-page-edit.css";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 import { convertFileToBase64, isImage, testImage } from "../../util/imageProcessor";
@@ -44,6 +44,7 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
    * @type {[string[], React.Dispatch<React.SetStateAction<string[]>>]} 
    */
   const [tagList, setTagList] = useState([]);
+  const [isWaitingForEdit, setIsWaitingForEdit] = useState(false);
 
   useEffect(() => {
     setName(binHistory.name);
@@ -96,26 +97,15 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   }
 
   const confirmEdit = async () => {
-    // post info to server
     const base64Image = await convertFileToBase64(imageURL);
 
-    /**
-     * @type {EditRequestBody}
-     */
-    // const requestBody = {
-    //   bid: binHistory.bid,
-    //   pictureLink: base64Image,
-    //   name: name,
-    //   tags: tagList,
-    //   lat: lat,
-    //   long: long,
-    // }
-
     try {
+      setIsWaitingForEdit(true)
       await editBinData(binHistory.bid, name, tagList, lat, long, base64Image);            
       returnToMainPageFunction();
     } catch (e) {
       console.log(e);
+      setIsWaitingForEdit(false);
       showErrorAlert("Oops, there is something wrong here, please retry confirming the edit")
     }
   }
@@ -310,7 +300,13 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
               variant="outline-primary"
               onClick={() => setConfirmModal(true)}
             >
-              Confirm Edit
+              {
+                isWaitingForEdit ? (
+                  <Spinner size="sm"/>
+                ) : (
+                  "Confirm Edit"
+                )
+              }
             </Button>
             <Button
               variant="outline-danger"

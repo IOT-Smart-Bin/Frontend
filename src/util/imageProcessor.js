@@ -39,5 +39,6 @@ const _convertFileToBase64 = (imageUrl, callback) => {
     const dataUrl = canvas.toDataURL();
     callback && callback(dataUrl);
   };
+
   image.src = imageUrl;
 };

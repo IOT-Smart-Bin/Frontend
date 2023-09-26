@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { readBID } from "../../util/localStorageReadWrite";
 import { getMapData } from "../../util/binApi";
 import ErrorScreen from "../ErrorScreen/ErrorScreen";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Alert, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./map-page.css";
 
 /**
@@ -134,21 +134,21 @@ const MapPage = () => {
             }}
             center={defaultMapProps.center}
             zoom={defaultMapProps.zoom}
-            onLoad={onload}
+            // onLoad={onload}
           >
-            {mapData &&
+            {mapData && 
               mapData.map(
                 (data, index) =>
                   checkLatLngWorking(data) && (
-                    <Marker
-                      key={data + index}
+                    <MarkerF
+                      key={JSON.stringify(data) + index}
                       position={{
                         lat: data.lat,
                         lng: data.lng,
                       }}
                       label={"Bin ID:" + data.bid}
                       onClick={() => navigate(`/bin/${data.bid}`)}
-                    ></Marker>
+                    ></MarkerF>
                   )
               )}
           </GoogleMap>
