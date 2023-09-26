@@ -6,7 +6,7 @@ import MapPage from './pages/Map/MapPage.jsx';
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
-import SearchPage from './pages/SearchPage.jsx';
+import SearchPage from './pages/SearchPage/SearchPage.jsx';
 
 const router = createBrowserRouter([
   {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./search-page.css";
-import BinPanel from '../components/BinPanel';
-import mockData from '../MockData';
+import BinPanel from '../../components/BinPanel/BinPanel';
+import mockData from '../../MockData'
 
 function SearchPage() {
   const [query, setQuery] = useState('');
@@ -40,7 +40,7 @@ function SearchPage() {
       <div className="page-limit-container">
         <header className="search-bar">
           <div>
-            <input className = "search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input className="search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
             <button onClick={handleSearch} disabled={loading}>
               {loading ? 'Searching...' : 'Search'}
             </button>
@@ -71,7 +71,6 @@ function SearchPage() {
       </div>
     </>
   );
-
 }
 
 export default SearchPage;
