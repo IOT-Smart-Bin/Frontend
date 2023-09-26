@@ -1,0 +1,20 @@
+
+.page-limit-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.gallery-item {
+    width: 30%;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}

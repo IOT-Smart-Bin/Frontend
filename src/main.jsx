@@ -7,6 +7,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
+import WatchlistPage from './pages/WatchlistPage/WatchlistPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: "watchlist",
-        element: <Placeholder text="This is the Watchlist page"/>,
+        element: <WatchlistPage/>,
       },
       {
         path: "map",
