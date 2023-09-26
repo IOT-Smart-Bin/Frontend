@@ -1,44 +1,61 @@
-/* Styles for the square box container */
 .square-box {
   display: flex;
+  flex-direction: column;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  max-width: 360px; /* Set a maximum width for the square box */
-  overflow: hidden; /* Hide content that overflows the square */
-  flex-direction: column; /* Change the flex direction to column */
-  align-items: center; /* Center content horizontally */
-  text-align: center; /* Center text horizontally */
-  color: #000; /* Set text color to black */
+  max-width: 360px;
+  max-height: 410px;
+  overflow: hidden;
+  text-align: center;
+  color: #000;
 }
 
-/* Styles for the top section (name) */
+.square-box:hover {
+  background-color: #f7f7f7; 
+  box-shadow: 0 0 15px rgba(61, 61, 61, 0.2); 
+  color: #333; 
+}
+
+a {
+  text-decoration: none;
+}
+
+.truncate-text {
+  white-space: nowrap;      
+  overflow: hidden;        
+  text-overflow: ellipsis; 
+}
+
 .top {
-  width: 100%; /* Make it full width */
-  padding-left: 20px; /* Add some padding */
-  text-align: left; /* Center text */
+  width: 100%;
+  padding: 10px;
+  text-align: left;
 }
 
-/* Styles for the bottom section (image and the rest) */
+.middle {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .bottom {
   display: flex;
-  flex-wrap: wrap; /* Allow items to wrap onto a new line if necessary */
-  width: 100%; /* Make it full width */
+  flex-direction: column;
+  padding: 10px;
+  text-align: left;
+  min-width: 0;
 }
 
-/* Styles for the left side (image) in the bottom section */
-.bottom .left-side {
-  flex: 1; /* Allow it to grow and take remaining space */
-  padding: 10px; /* Add some spacing */
-  text-align: left; /* Align text to the left */
+.column-container {
+  display: flex;
+  flex-direction: row;
 }
 
-/* Styles for the right side (tags, capacity, gas data, timestamp) in the bottom section */
-.bottom .right-side {
-  flex: 1; /* Allow it to grow and take remaining space */
-  padding: 10px; /* Add some spacing */
-  text-align: left; /* Align text to the left */
-  min-width: 0; /* Ensure content can shrink if necessary */
+.column {
+  flex: 1;
+  margin-right: 5px;
 }

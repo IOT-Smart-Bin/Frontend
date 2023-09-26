@@ -13,33 +13,38 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
     weight: PropTypes.float,
     timestamp: PropTypes.string,
     humidity: PropTypes.number,
-    lat: PropTypes.number, // float
-    long: PropTypes.number, // float
+    lat: PropTypes.number,
+    long: PropTypes.number,
 
   };
 
-  return (
-    <div className="square-box">
-      <div className="top">
-        <h4><strong>{name ?? 'N/A'}</strong></h4>
-      </div>
-      <div className="bottom">
-        <div className="left-side">
-          <img
-            src={pictureLink || 'https://via.placeholder.com/200x200?text=Placeholder'}
-            width="100%"
-            height="100%"
-          />
-        </div>
-        <div className="right-side">
-          <p><strong>Tags:</strong> {tags?.join(', ') || 'N/A'}</p>
-          <p><strong>Capacity:</strong> {capacity ?? 'N/A'}%</p>
-          <p><strong>Gas:</strong> {gas ?? 'N/A'}</p>
-          <p><strong>Last updated:</strong> {timestamp ?? 'N/A'}</p>
-        </div>
-      </div>
-    </div>
+  const link = `/bin/:${bid}`;
 
+  return (
+    <a href={link}>
+      <div className="square-box">
+        <div className="top">
+          <h5 className='truncate-text'><strong>{name ?? 'N/A'}</strong></h5>
+        </div>
+        <div className="middle">
+          <div className="left-side">
+            <img
+              src={pictureLink || 'https://via.placeholder.com/200x200?text=Placeholder'}
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </div>
+        <div className="bottom">
+          <p className='truncate-text'><strong>Tags:</strong> {tags?.join(', ') || 'N/A'}</p>
+          <div className="column-container">
+            <p className='column'><strong>Capacity:</strong> {capacity ?? 'N/A'}%</p>
+            <p className='column'><strong>Gas:</strong> {gas ?? 'N/A'}%</p>
+          </div>
+          <p>Last updated: {timestamp ?? 'N/A'}</p>
+        </div>
+      </div>
+    </a>
   );
 }
 
