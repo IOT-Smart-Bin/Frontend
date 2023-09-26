@@ -1,55 +1,77 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./search-page.css";
+import BinPanel from '../components/BinPanel';
+import mockData from '../MockData';
 
 function SearchPage() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = async (name, tag) => {
+  const handleSearch = async () => {
+    setLoading(true);
+
     try {
-      const url = ``
+      const url = 'endpoint';
       const params = {
-        Name: name,
-        tag: tag,
+        Name: query,
+        tag: '',
       };
-      const response = await axios.get(url, { params });
-      console.log('Search response is: ' + response)
-      return response
 
+      //const response = await axios.get(url, { params });
+      const response = mockData; // mock data while waiting for API to finish
+
+      if (Array.isArray(response) && response.length === 0) {
+        setResults([]);
+      } else {
+        setResults(response);
+      }
     } catch (error) {
       console.error(error);
-      return null;
-    };
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className='fullpage-container center'>
-      <header className="fixed-header">
-        <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
+    <>
+      <div className="page-limit-container">
+        <header className="search-bar">
+          <div>
+            <input className = "search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <button onClick={handleSearch} disabled={loading}>
+              {loading ? 'Searching...' : 'Search'}
+            </button>
+          </div>
+        </header>
+        <div className="page-limit-container">
+          {results.length === 0 ? (
+            <p>No results found.</p>
+          ) : (
+            <div className="gallery-container">
+              {results.map((result, index) => (
+                <div className="gallery-item" key={index}>
+                  <BinPanel
+                    bid={result.bid}
+                    tags={result.tags}
+                    name={result.name}
+                    pictureLink={result.pictureLink}
+                    capacity={result.capacity}
+                    gas={result.gas}
+                    weight={result.weight}
+                    timestamp={result.timestamp}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </header>
-      <div>
-        {results.length === 0 ? (
-          <p>No results found.</p>
-        ) : (
-          <ul>
-            {results.map((result, index) => (
-              <li key={index}>{result}</li>
-            ))}
-          </ul>
-        )}
       </div>
-    </div>
+    </>
   );
+
 }
 
 export default SearchPage;
