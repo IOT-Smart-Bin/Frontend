@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Placeholder text="This is the Home/Search page"/>
+        element: <SearchPage/>,
       },
       {
         path: "watchlist",
