@@ -1,4 +1,4 @@
-import React, { useEffect, useRef , useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./bin-page-success.css";
 import BinPageEdit from "./BinPageEdit";
 import SingleNumberBinInfoComponent from "../../components/BinInfoComponent/SingleNumberBinInfo";
@@ -53,7 +53,6 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
         if (!config[key]) {
           config[key] = []
         } 
-        // debugger;
         config[key].push([binTime.timestamp, value])
       }
     })
@@ -160,7 +159,7 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                     <br />
                     <Row>
                       <Button
-                        variant="primary"
+                        variant={isInWL ? "primary" : "outline-primary"}
                         onClick={() => setGlobalIsShowGraph((prev) => !prev)}
                       >
                         <b>See All Graph</b>
@@ -184,7 +183,7 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
               </Card>
             </Col>
           </Row>
-          {componentTree &&
+          {componentTree && componentTree.length !== 0 ? (
             componentTree.map((dataInRow) => (
               <Row key={JSON.stringify(dataInRow)}>
                 {dataInRow.map((data) => (
@@ -196,7 +195,17 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                   </Col>
                 ))}
               </Row>
-            ))}
+            ))
+          ) : (
+            <div>
+              <hr></hr>
+              <h1>No data</h1>
+              <p className="no-margin">There are no data for this bin.</p>
+              <p className="no-margin">
+                Please wait for the data to automatically update.
+              </p>
+            </div>
+          )}
         </div>
       ) : (
         <BinPageEdit
