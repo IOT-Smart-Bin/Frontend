@@ -48,8 +48,8 @@ export const getBinDataAndHistory = (bid, startDate) => {
           pictureLink: dataOfInterest.image,
           name: dataOfInterest.name,
           location: {
-            lat: dataOfInterest.location.latitude.toString(),
-            long: dataOfInterest.location.longitude.toString()
+            lat: dataOfInterest.location && dataOfInterest.location.latitude ? dataOfInterest.location.latitude.toString() : -200,
+            long: dataOfInterest.location && dataOfInterest.location.longitude ? dataOfInterest.location.longitude.toString() : -200
           }
         }
         /**
@@ -92,10 +92,15 @@ export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
         },
     }
 
+    if (!pictureLink) {
+      return axiosInstance.put("/bin_info", dataReqBody);
+    }
+
     const imageReqbody = {
       bid: parseInt(bid),
       image: pictureLink,
     }
+
     return Promise.all([
       axiosInstance.put("/bin_info", dataReqBody),
       axiosInstance.put("/image", imageReqbody)
@@ -121,8 +126,8 @@ export const getMapData = (bids) => {
          bid: mapData.bid.toString(),
          name: mapData.name,
          tags: mapData.tags,
-         lat: parseFloat(mapData.location.latitude),
-         lng: parseFloat(mapData.location.longitude),
+         lat: parseFloat(mapData.location && mapData.location.latitude ? mapData.location.latitude : -200),
+         lng: parseFloat(mapData.location && mapData.location.longitude ? mapData.location.longitude : -200),
        }));
      })
 }

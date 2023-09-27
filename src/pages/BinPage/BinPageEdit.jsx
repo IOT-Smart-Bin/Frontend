@@ -97,7 +97,7 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   }
 
   const confirmEdit = async () => {
-    const base64Image = await convertFileToBase64(imageURL);
+    const base64Image = imageFile ? await convertFileToBase64(imageURL) : null;
 
     try {
       setIsWaitingForEdit(true)
