@@ -9,6 +9,7 @@ function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // request for bin data using user's input name 
   const handleSearch = async () => {
     setLoading(true);
 
@@ -18,10 +19,8 @@ function SearchPage() {
         name: query,
         tag: [],
       };
-
       const response = await axios.post(url, params);
-      //const response = mockData; // mock data while waiting for API to finish
-
+      
       if (Array.isArray(response.data) && response.data.length > 0) {
         setResults(response.data);
         console.log('bin found');
