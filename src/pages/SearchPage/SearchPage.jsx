@@ -13,19 +13,22 @@ function SearchPage() {
     setLoading(true);
 
     try {
-      const url = 'endpoint';
+      const url = 'http://13.229.60.73:8000/search';
       const params = {
-        Name: query,
-        tag: '',
+        name: query,
+        tag: [],
       };
 
-      //const response = await axios.get(url, { params });
-      const response = mockData; // mock data while waiting for API to finish
+      const response = await axios.post(url, params);
+      //const response = mockData; // mock data while waiting for API to finish
 
-      if (Array.isArray(response) && response.length === 0) {
-        setResults([]);
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        setResults(response.data);
+        console.log('bin found');
       } else {
-        setResults(response);
+        setResults([]);
+        console.log('bin not found');
+        console.log(response);
       }
     } catch (error) {
       console.error(error);
@@ -57,11 +60,11 @@ function SearchPage() {
                     bid={result.bid}
                     tags={result.tags}
                     name={result.name}
-                    pictureLink={result.pictureLink}
-                    capacity={result.capacity}
-                    gas={result.gas}
-                    weight={result.weight}
-                    timestamp={result.timestamp}
+                    pictureLink={result.image} 
+                    capacity={result.latest_data_point?.capacity ?? 'N/A'}
+                    gas={result.latest_data_point?.gas ?? 'N/A'}
+                    weight={result.latest_data_point?.weight ?? 'N/A'}
+                    timestamp={result.latest_data_point?.timestamp ?? 'N/A'}
                   />
                 </div>
               ))}
