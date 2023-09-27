@@ -59,3 +59,8 @@ a {
   flex: 1;
   margin-right: 5px;
 }
+
+.small-font {
+  font-size: 15px; 
+  color:#585858;
+}
