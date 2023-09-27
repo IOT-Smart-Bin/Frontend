@@ -18,7 +18,23 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
 
   };
 
-  const link = `/bin/:${bid}`;
+  const link = `/bin/${bid}`;
+
+  // if timestamp is not empty, change it to YYYY/MM/DD HH/MM/SS pattern
+  function formatTimestamp(timestamp) {
+    if (!timestamp || timestamp === 'N/A') return 'N/A';
+  
+    const dateObj = new Date(timestamp);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); 
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+  
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+  }
+
 
   return (
     <a href={link}>
@@ -28,10 +44,9 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
         </div>
         <div className="middle">
           <div className="left-side">
-            <img
-              src={pictureLink || 'https://via.placeholder.com/200x200?text=Placeholder'}
-              width="100%"
-              height="100%"
+            <img src={pictureLink || 'https://via.placeholder.com/200x200?text=Placeholder'}
+              width="200px"
+              height="200px"
             />
           </div>
         </div>
@@ -41,7 +56,7 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
             <p className='column'><strong>Capacity:</strong> {capacity ?? 'N/A'}%</p>
             <p className='column'><strong>Gas:</strong> {gas ?? 'N/A'}%</p>
           </div>
-          <p>Last updated: {timestamp ?? 'N/A'}</p>
+          <p className='small-font'>Last updated: {formatTimestamp(timestamp) ?? 'N/A'}</p>
         </div>
       </div>
     </a>
