@@ -29,15 +29,16 @@ export const convertFileToBase64 = (imageUrl) => {
 
 const _convertFileToBase64 = (imageUrl, callback) => {
   const image = new Image();
-  image.crossOrigin = "anonymous";
+  image.crossOrigin = "Anonymous";
   image.onload = () => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     canvas.height = image.naturalHeight;
     canvas.width = image.naturalWidth;
     ctx.drawImage(image, 0, 0);
-    const dataUrl = canvas.toDataURL();
+    const dataUrl = canvas.toDataURL("image/png", 0.7);
     callback && callback(dataUrl);
   };
-  image.src = imageUrl;
+
+  image.src = imageUrl ;
 };

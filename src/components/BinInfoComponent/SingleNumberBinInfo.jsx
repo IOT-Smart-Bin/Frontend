@@ -38,7 +38,7 @@ const SingleNumberBinInfoComponent = (props) => {
   const componentConfig = useRef(
     getComponentConfigBasedOfMeasuredValue(
       props.name,
-      props.dataset[props.dataset.length-1][1].toFixed(2)
+      props.dataset[props.dataset.length-1][1]
     )
   );
   const [isShowGraph, setIsShowGraph] = useState(false);
@@ -117,7 +117,7 @@ const SingleNumberBinInfoComponent = (props) => {
           Current {props.name} level is{" "}
         </p>
         <div className="center flex-row add-gap">
-          <h1>{props.dataset[props.dataset.length-1][1].toFixed(2) ?? ""}</h1>
+          <h1>{props.dataset[props.dataset.length-1][1] ?? ""}</h1>
           <h3>{componentConfig.current.unit}</h3>
         </div>
       </Card.Body>
