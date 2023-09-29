@@ -4,12 +4,12 @@ import App from './App.jsx'
 import BinPage from './pages/BinPage/BinPage.jsx';
 import MapPage from './pages/Map/MapPage.jsx';
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
 import Placeholder from "./pages/Placeholder.jsx";
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import WatchlistPage from './pages/WatchlistPage/WatchlistPage.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
