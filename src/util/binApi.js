@@ -9,6 +9,7 @@ import QueryString from "qs"
  * @property {number} humidityInside 
  * @property {number} humidityOutside
  * @property {number} capacity
+ * @property {number} temperature
  * 
  * @typedef BinData
  * @property {string} bid
@@ -62,7 +63,8 @@ export const getBinDataAndHistory = (bid, startDate) => {
             weight: dataPoint.weight,
             capacity: dataPoint.capacity,
             humidityInside: dataPoint.humidity_inside,
-            humidityOutside: dataPoint.humidity_outside
+            humidityOutside: dataPoint.humidity_outside,
+            temperature: dataPoint.temperature
           }
         })
         
@@ -85,7 +87,7 @@ export const editBinData = (bid, name, tags, lat, long, pictureLink) => {
     const dataReqBody = {
         bid: parseInt(bid), 
         name: name, 
-        tags: tags, 
+        tags: tags.length > 0 ? tags : null, 
         location: {
           latitude: parseFloat(lat),
           longitude: parseFloat(long)
