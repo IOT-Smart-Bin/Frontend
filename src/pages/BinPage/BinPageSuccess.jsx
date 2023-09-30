@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./bin-page-success.css";
 import BinPageEdit from "./BinPageEdit";
 import SingleNumberBinInfoComponent from "../../components/BinInfoComponent/SingleNumberBinInfo";
 import { Card, Col, Row, Image, Container, Button } from "react-bootstrap";
 import { isInWatchList, removeBID, addBID } from "../../util/localStorageReadWrite";
 import { useNavigate } from "react-router-dom";
+import { assetGenerator } from "../../util/valueDescription";
 
 /**
  * @typedef BinPageSuccessProps 
@@ -21,6 +22,8 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
   const navigate = useNavigate();
   const [globalIsShowGraph, setGlobalIsShowGraph] = useState(false);
   const [componentTree, setComponentTree] = useState();
+  const [mainComponentAssetLevel, setMainComponentAssetLevel] = useState(0);
+  const mainComponentAsset = useMemo(() => assetGenerator(mainComponentAssetLevel), [mainComponentAssetLevel])
 
   useEffect(() => {
     setIsInWL(isInWatchList(binDataAndHistory.bid));
@@ -84,14 +87,14 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
   return (
     <>
       {!isEditing ? (
-        <div className="page-limit-container">
+        <div className="page-limit-container-3">
           <Row>
             <Col>
-              <Card className="mt-3 border-4">
-                <Card.Header className="border-4 text-align-left">
+              <Card className={`mt-3 border-4 ${mainComponentAsset.borderColor} ${mainComponentAsset.background}`}>
+                <Card.Header className="border-4 text-align-left my-card-header-and-footer">
                   <Card.Title>Bin Info</Card.Title>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className="my-card-body">
                   {/* <div className="intro-card-container"> */}
                   <Row>
                     <Col>
@@ -111,7 +114,12 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                           <b>Bin ID:</b> {binDataAndHistory.bid}
                         </p>
                         <p>
-                          <b>Tags:</b> {binDataAndHistory.tags.toString()}
+                          <b>Tags:</b>{" "}
+                          {binDataAndHistory.tags.reduce(
+                            (prev, current) =>
+                              prev === "" ? current : prev + ", " + current,
+                            ""
+                          )}
                         </p>
                         <p>
                           <b>Location:</b>
@@ -186,14 +194,15 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
           {componentTree && componentTree.length !== 0 ? (
             componentTree.map((dataInRow) => (
               <Row key={JSON.stringify(dataInRow)}>
-                {dataInRow.map((data) => (
-                  <Col key={JSON.stringify(data)}>
+                {dataInRow.map((data) => {
+                  return <Col key={JSON.stringify(data)}>
                     <SingleNumberBinInfoComponent
                       {...data}
                       globalIsShowGraph={globalIsShowGraph}
+                      setMainComponentAssetLevel={setMainComponentAssetLevel}
                     />
-                  </Col>
-                ))}
+                  </Col>;
+                })}
               </Row>
             ))
           ) : (

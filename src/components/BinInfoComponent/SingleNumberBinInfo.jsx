@@ -24,6 +24,7 @@ const capitalizeFirstLetter = (text) => {
  * @property {string} name
  * @property {[string, number][]} dataset
  * @property {boolean} globalIsShowGraph
+ * @property {React.Dispatch<React.SetStateAction<number>>} setMainComponentAssetLevel
  */
 
 /**
@@ -60,14 +61,24 @@ const SingleNumberBinInfoComponent = (props) => {
     }
   }, [props.globalIsShowGraph])
 
+  useEffect(() => {
+    if (componentConfig) {
+      props.setMainComponentAssetLevel((prev) =>
+        componentConfig.current.interpreted.displayColorLevel >= prev
+          ? componentConfig.current.interpreted.displayColorLevel
+          : prev
+      );
+    }
+  }, [componentConfig]);
+
   return (
     <Card
-      className={`mt-3 border-3 ${componentConfig.current.asset.borderColor}`}
+      className={`mt-3 border-3 ${componentConfig.current.asset.borderColor} ${componentConfig.current.asset.background}`}
     >
-      <Card.Header className="text-align-left ">
+      <Card.Header className="text-align-left  my-card-header-and-footer">
         <div className="bin-card-header">
-          <Card.Title className="center">
-            {capitalizeFirstLetter(props.name) ?? ""}
+          <Card.Title className="center ">
+            {capitalizeFirstLetter(componentConfig.current.displayName)}
           </Card.Title>
           <ButtonToolbar>
             <OverlayTrigger placement="bottom" overlay={tooltip}>
@@ -86,7 +97,7 @@ const SingleNumberBinInfoComponent = (props) => {
           </ButtonToolbar>
         </div>
       </Card.Header>
-      <Card.Body className="text-align-left">
+      <Card.Body className="text-align-left my-card-body">
         <Collapse in={props.globalIsShowGraph || isShowGraph}>
           <div>
             <ReactEChartsCore
@@ -94,9 +105,18 @@ const SingleNumberBinInfoComponent = (props) => {
               option={{
                 xAxis: {
                   type: "time",
+                  name: capitalizeFirstLetter(componentConfig.current.displayName),
+                  nameLocation: "center",
+                  nameTextStyle: {
+                    padding: 20
+                  },
+                  axisLabel: {
+                    rotate: 30
+                  }
                 },
                 yAxis: {
                   type: "value",
+                  name: "Value",
                 },
                 dataset: {
                   source: props.dataset,
@@ -104,7 +124,7 @@ const SingleNumberBinInfoComponent = (props) => {
                 },
                 series: [
                   {
-                    name: "lol",
+                    name: props.name,
                     type: "line",
                   },
                 ],
@@ -121,8 +141,9 @@ const SingleNumberBinInfoComponent = (props) => {
           <h3>{componentConfig.current.unit}</h3>
         </div>
       </Card.Body>
-      <Card.Footer>
-        <p className={`${componentConfig.current.asset.textColor} bold-text`}>
+      <Card.Footer className="my-card-header-and-footer">
+        {/* <p className={`${componentConfig.current.asset.textColor} bold-text`}> */}
+        <p className={` bold-text`}>
           Status: {componentConfig.current.interpreted.interpretAs} -{" "}
           {componentConfig.current.interpreted.interpretDescription}
         </p>
