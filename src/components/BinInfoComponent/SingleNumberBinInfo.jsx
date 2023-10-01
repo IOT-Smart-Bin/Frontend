@@ -134,7 +134,7 @@ const SingleNumberBinInfoComponent = (props) => {
           </div>
         </Collapse>
         <p className="no-margin center">
-          Current {props.name} level is{" "}
+          Current {componentConfig.current.displayName} level is{" "}
         </p>
         <div className="center flex-row add-gap">
           <h1>{props.dataset[props.dataset.length-1][1] ?? ""}</h1>

@@ -112,16 +112,16 @@ export const valueConfig = [
     description:
       "How heavy the trash is. If the trash is heavy, it could be harder to pick up. Make sure to bring " +
       "the right equipment when picking up heavy trash. Heavy trash could also indicate the amount of water content in the trash",
-    unit: "kg",
+    unit: "g",
     interpretor: [
       {
-        lowerBound: 5,
+        lowerBound: 3000,
         interpretAs: "Heavy",
         interpretDescription: "Heavy bin, Please bring cart when collecting",
         displayColorLevel: 3
       },
       {
-        lowerBound: 2,
+        lowerBound: 1000,
         interpretAs: "Mildly heavy",
         interpretDescription: "Mildly heavy bin",
         displayColorLevel: 2
@@ -166,7 +166,7 @@ export const valueConfig = [
     displayName: "Temperature",
     description:
       "Can be used to tell how fast the trash could be decomposing",
-    unit: "%",
+    unit: "°C",
     interpretor: [
       {
         lowerBound: 36,
@@ -255,7 +255,6 @@ export const getComponentConfigBasedOfMeasuredValue = (valueName, currentValue) 
   const valueNameConfig = valueConfig.find((value) => value.valueName === valueName);
   if (valueNameConfig) {
     const interpretorInstance = getInterpretation(valueNameConfig.interpretor, currentValue);
-    console.log(valueNameConfig.displayName);
     return {
       unit: valueNameConfig.unit,
       description: valueNameConfig.description,
