@@ -5,7 +5,7 @@ import BinPanel from '../../components/BinPanel/BinPanel';
 
 function SearchPage() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
   // request for bin data using user's input name 
@@ -36,34 +36,47 @@ function SearchPage() {
   return (
     <>
       <div className="page-limit-container">
-        <header className="search-bar">
-          <div>
-            <input className="search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
-            <button onClick={handleSearch} disabled={loading}>
-              {loading ? 'Searching...' : 'Search'}
-            </button>
+        <div className={`${!results && "page-content-container"}`}>
+          {!results && (
+            <div>
+              <h1>
+                Welcome to Trash App.
+              </h1>
+              <h5>
+                Search with your bin's name to get started.
+              </h5>
+            </div>
+          )}
+          <div className="search-bar">
+            <form onSubmit={handleSearch}>
+              <input className="search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+              <button onClick={handleSearch} disabled={loading}>
+                {loading ? 'Searching...' : 'Search'}
+              </button>
+            </form>
           </div>
-        </header>
-        <div className="page-limit-container">
-          {results.length === 0 ? (
-            <p>No results found.</p>
-            
-          ) : (
-            <div className="gallery-container">
-              {results.map((result, index) => (
-                <div className="gallery-item" key={index}>
-                  <BinPanel
-                    bid={result.bid}
-                    tags={result.tags}
-                    name={result.name}
-                    pictureLink={result.image} 
-                    capacity={result.latest_data_point?.capacity ?? 'N/A'}
-                    gas={result.latest_data_point?.gas ?? 'N/A'}
-                    weight={result.latest_data_point?.weight ?? 'N/A'}
-                    timestamp={result.latest_data_point?.timestamp ?? 'N/A'}
-                  />
+          {results && (
+            <div className="page-limit-container">
+              {results.length === 0 ? (
+                <p>No results found.</p>
+              ) : (
+                <div className="gallery-container">
+                  {results.map((result, index) => (
+                    <div className="gallery-item" key={index}>
+                      <BinPanel
+                        bid={result.bid}
+                        tags={result.tags}
+                        name={result.name}
+                        pictureLink={result.image}
+                        capacity={result.latest_data_point?.capacity ?? 'N/A'}
+                        gas={result.latest_data_point?.gas ?? 'N/A'}
+                        weight={result.latest_data_point?.weight ?? 'N/A'}
+                        timestamp={result.latest_data_point?.timestamp ?? 'N/A'}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>

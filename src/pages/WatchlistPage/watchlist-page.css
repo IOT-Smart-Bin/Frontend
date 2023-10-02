@@ -1,4 +1,3 @@
-
 .page-limit-container {
     width: 100%;
     max-width: 1200px;
@@ -6,10 +5,10 @@
     padding: 20px;
 }
 
-.gallery-container {
+.gallery-container-watchlist {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .gallery-item {

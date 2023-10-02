@@ -47,7 +47,7 @@ function WatchlistPage() {
         {results.length === 0 ? (
           <p>There is currently no item in your watchlist.</p>
         ) : (
-          <div className="gallery-container">
+          <div className="gallery-container-watchlist">
               {results.map((result, index) => (
                 <div className="gallery-item" key={index}>
                   <BinPanel
