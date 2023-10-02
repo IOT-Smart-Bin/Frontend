@@ -142,13 +142,13 @@ export const valueConfig = [
     unit: "%",
     interpretor: [
       {
-        lowerBound: 500,
+        lowerBound: 75,
         interpretAs: "High",
         interpretDescription: "Could lead to bad smell",
         displayColorLevel: 3
       },
       {
-        lowerBound: 300,
+        lowerBound: 40,
         interpretAs: "Medium",
         interpretDescription: "Could start having bad odor",
         displayColorLevel: 2
