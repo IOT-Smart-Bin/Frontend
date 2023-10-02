@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./watchlist-page.css";
 import BinPanel from '../../components/BinPanel/BinPanel';
-import mockData from '../../MockData'
 import { readBID, } from '../../util/localStorageReadWrite';
 import { useEffect, useRef } from 'react';
 
@@ -31,11 +30,8 @@ function WatchlistPage() {
 
       if (Array.isArray(response.data) && response.data.length > 0) {
         setResults(response.data);
-        console.log('bin found');
       } else {
         setResults([]);
-        console.log('bin not found');
-        console.log(response);
       }
 
     } catch (error) {

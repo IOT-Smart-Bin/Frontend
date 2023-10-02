@@ -64,3 +64,19 @@ a {
   font-size: 15px; 
   color:#585858;
 }
+
+.low-capacity {
+  color: green; 
+}
+
+.medium-capacity {
+  color: yellow; 
+}
+
+.high-capacity {
+  color: red; 
+}
+
+.invalid-capacity {
+  color: rgb(156, 156, 156); 
+}
