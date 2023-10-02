@@ -97,18 +97,20 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
   }
 
   const confirmEdit = async () => {
+    setIsWaitingForEdit(true);
     const base64Image = imageFile ? await convertFileToBase64(imageURL) : null;
 
     try {
-      setIsWaitingForEdit(true)
-      await editBinData(binHistory.bid, name, tagList, lat, long, base64Image);            
+      await editBinData(binHistory.bid, name, tagList, lat, long, base64Image);
       returnToMainPageFunction();
     } catch (e) {
       console.log(e);
       setIsWaitingForEdit(false);
-      showErrorAlert("Oops, there is something wrong here, please retry confirming the edit")
+      showErrorAlert(
+        "Oops, there is something wrong here, please retry confirming the edit"
+      );
     }
-  }
+  };
 
   /**
    * @param {string} tag 
