@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./search-page.css";
 import BinPanel from '../../components/BinPanel/BinPanel';
-import mockData from '../../MockData'
 
 function SearchPage() {
   const [query, setQuery] = useState('');
@@ -20,14 +19,11 @@ function SearchPage() {
         tag: [],
       };
       const response = await axios.post(url, params);
-      
+
       if (Array.isArray(response.data) && response.data.length > 0) {
         setResults(response.data);
-        console.log('bin found');
       } else {
         setResults([]);
-        console.log('bin not found');
-        console.log(response);
       }
     } catch (error) {
       console.error(error);
@@ -51,6 +47,7 @@ function SearchPage() {
         <div className="page-limit-container">
           {results.length === 0 ? (
             <p>No results found.</p>
+            
           ) : (
             <div className="gallery-container">
               {results.map((result, index) => (
