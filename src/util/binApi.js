@@ -61,7 +61,7 @@ export const getBinDataAndHistory = (bid, startDate) => {
             timestamp: dataPoint.timestamp,
             gas: dataPoint.gas,
             weight: dataPoint.weight,
-            capacity: dataPoint.capacity,
+            capacity: dataPoint.capacity > 0 ? dataPoint.capacity : 0,
             humidityInside: dataPoint.humidity_inside,
             humidityOutside: dataPoint.humidity_outside,
             temperature: dataPoint.temperature

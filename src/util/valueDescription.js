@@ -115,7 +115,7 @@ export const valueConfig = [
     unit: "g",
     interpretor: [
       {
-        lowerBound: 3000,
+        lowerBound: 5000,
         interpretAs: "Heavy",
         interpretDescription: "Heavy bin, Please bring cart when collecting",
         displayColorLevel: 3
@@ -139,16 +139,16 @@ export const valueConfig = [
     displayName: "Gas",
     description:
       "High gas concentration could lead to smell, and other health related hazard",
-    unit: "%",
+    unit: "",
     interpretor: [
       {
-        lowerBound: 75,
+        lowerBound: 300,
         interpretAs: "High",
         interpretDescription: "Could lead to bad smell",
         displayColorLevel: 3
       },
       {
-        lowerBound: 40,
+        lowerBound: 150,
         interpretAs: "Medium",
         interpretDescription: "Could start having bad odor",
         displayColorLevel: 2
