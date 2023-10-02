@@ -35,20 +35,20 @@ function SearchPage() {
 
   return (
     <>
-      <div className="page-limit-container">
+      <div className="search-page-limit-container">
         <div className={`${!results && "page-content-container"}`}>
           {!results && (
             <div>
-              <h1>
+              <h1 className='title-box'>
                 Welcome to Trash App.
               </h1>
-              <h5>
+              <h5 className='title-box'>
                 Search with your bin's name to get started.
               </h5>
             </div>
           )}
           <div className="search-bar">
-            <form onSubmit={handleSearch}>
+            <form onSubmit={handleSearch} className='form-container'>
               <input className="search-input" type="text" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
               <button onClick={handleSearch} disabled={loading}>
                 {loading ? 'Searching...' : 'Search'}

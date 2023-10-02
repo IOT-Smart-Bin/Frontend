@@ -43,7 +43,7 @@ function WatchlistPage() {
 
   return (
     <>
-      <div className="page-limit-container">
+      <div className="page-limit-container-watchlist">
         {results.length === 0 ? (
           <p>There is currently no item in your watchlist.</p>
         ) : (
