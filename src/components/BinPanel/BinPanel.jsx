@@ -46,11 +46,11 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
   }
 
   let gasClass;
-  if (gas >= 0 && gas < 40) {
+  if (gas >= 0 && gas < 150) {
     gasClass = 'low-capacity';
-  } else if (gas >= 40 && gas < 75) {
+  } else if (gas >= 150 && gas < 300) {
     gasClass = 'medium-capacity';
-  } else if (gas >= 75){
+  } else if (gas >= 300){
     gasClass = 'high-capacity';
   } else {
     gasClass = 'invalid-capacity';
@@ -75,7 +75,7 @@ function BinPanel({ bid, tags, name, pictureLink, capacity, gas, weight, timesta
           <p className='truncate-text'><strong>Tags:</strong> {tags?.join(', ') || 'N/A'}</p>
           <div className="column-container">
             <p className={`column ${capacityClass}`}> <strong>Capacity:</strong> {capacity ?? 'N/A'}% </p>
-            <p className={`column ${gasClass}`}><strong>Gas:</strong> {gas ?? 'N/A'}%</p>
+            <p className={`column ${gasClass}`}><strong>Gas:</strong> {gas ?? 'N/A'}</p>
           </div>
           <p className='small-font'>Last updated: {formatTimestamp(timestamp) ?? 'N/A'}</p>
         </div>
