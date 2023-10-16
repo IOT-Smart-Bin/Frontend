@@ -50,10 +50,10 @@ const BinPage = () => {
           setPageStatus(-1);
           return;
         } 
-
+        
         (async () => {
             try {
-                const binDataAndHistoryFetchResult = await getBinDataAndHistory(bid, moment().add(-7, "days").format("YYYY-MM-DDTHH:mm:ss"))
+                const binDataAndHistoryFetchResult = await getBinDataAndHistory(bid, moment().add(-14, "days").format("YYYY-MM-DDTHH:mm:ss"))
                 setBinDataAndHistory(binDataAndHistoryFetchResult);
             } catch (e) {
                 console.error(e);
