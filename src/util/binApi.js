@@ -28,9 +28,9 @@ import QueryString from "qs"
  * 
  * @param {string} bid 
  * @param {string} startDate 
- * @returns {BinData & Timeline}
+ * @returns {Promise<BinData & Timeline>}
  */
-export const getBinDataAndHistory = (bid, startDate) => {
+export const getBinDataAndHistory = async (bid, startDate) => {
     return Promise.all([
         axiosInstance.post(`/bins`, [parseInt(bid)]),
         axiosInstance.post(`/histories`, { start_date: startDate, bid: parseInt(bid) })

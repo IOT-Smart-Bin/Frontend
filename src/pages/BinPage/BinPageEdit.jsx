@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Card, ButtonGroup, Form, Container, Row, Col, Alert, Placeholder, Spinner } from "react-bootstrap";
 import "./bin-page-edit.css";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
@@ -195,7 +195,7 @@ const BinPageEdit = ({ returnToMainPageFunction, binHistory }) => {
               <Container>
                 {
                   imageURL ? (
-                    <img src={imageURL} className="preview-image"></img>
+                    <img src={imageURL} alt="Preview Image" className="preview-image"></img>
                   ) : (
                     <Placeholder></Placeholder>
                   )

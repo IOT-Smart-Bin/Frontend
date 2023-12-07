@@ -24,7 +24,7 @@ function WatchlistPage() {
   const getWatchlistData = async () => {
     setLoading(true);
     try {
-      const url = 'http://13.229.60.73:8000/bins';
+      const url = import.meta.env.VITE_BACKEND_URL + "/bins";
       const params = readBID(); // array of string of bids
       const response = await axios.post(url, params);
 

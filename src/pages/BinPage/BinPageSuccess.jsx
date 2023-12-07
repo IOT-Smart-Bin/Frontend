@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useMemo, useState } from "react";
 import "./bin-page-success.css";
 import BinPageEdit from "./BinPageEdit";
 import SingleNumberBinInfoComponent from "../../components/BinInfoComponent/SingleNumberBinInfo";
@@ -6,6 +7,7 @@ import { Card, Col, Row, Image, Container, Button } from "react-bootstrap";
 import { isInWatchList, removeBID, addBID } from "../../util/localStorageReadWrite";
 import { useNavigate } from "react-router-dom";
 import { assetGenerator } from "../../util/valueDescription";
+import BinSettingModal from "../../components/BinSettingModal/BinSettingModal";
 
 /**
  * @typedef BinPageSuccessProps 
@@ -16,9 +18,10 @@ import { assetGenerator } from "../../util/valueDescription";
  * @param {BinPageSuccessProps} props
  * @returns {React.ReactNode}
  */
-const BinPageSuccess = ({ binDataAndHistory }) => {
+const BinPageSuccess = ({ binDataAndHistory, onSettingChange }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isInWL, setIsInWL] = useState(false);
+  const [isSettingModalShowing, setIsSettingModalShowing] = useState(false);
   const navigate = useNavigate();
   const [globalIsShowGraph, setGlobalIsShowGraph] = useState(false);
   const [componentTree, setComponentTree] = useState();
@@ -45,7 +48,7 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
 
     window.dispatchEvent(new Event("bid_storage"));
   };
-  
+
   const parseHistoryToGraphDataset = () => {
     const config = {}
     const excludeDataType = ["timestamp", "bid"]
@@ -55,7 +58,7 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
         if (excludeDataType.includes(key)) continue;
         if (!config[key]) {
           config[key] = []
-        } 
+        }
         config[key].push([binTime.timestamp, value])
       }
     })
@@ -186,11 +189,25 @@ const BinPageSuccess = ({ binDataAndHistory }) => {
                         </Button>
                       </Row>
                     )}
+                    <br />
+                    <Row>
+                      <Button
+                        variant="success"
+                        onClick={() => setIsSettingModalShowing(true)}
+                      >
+                        <b>Page Setting</b>
+                      </Button>
+                    </Row>
                   </Container>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
+          <BinSettingModal
+            show={isSettingModalShowing}
+            handleClose={() => setIsSettingModalShowing(false)}
+            settingChange={onSettingChange}
+          />
           {componentTree && componentTree.length !== 0 ? (
             componentTree.map((dataInRow) => (
               <Row key={JSON.stringify(dataInRow)}>

@@ -13,7 +13,7 @@ function SearchPage() {
     setLoading(true);
 
     try {
-      const url = 'http://13.229.60.73:8000/search';
+      const url = import.meta.env.VITE_BACKEND_URL + '/search';
       const params = {
         name: query,
         tag: [],
